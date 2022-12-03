@@ -35,7 +35,5 @@ def Count(groups):
         total += priority
     return total
 
-                
-
-
-print(Count(findGroups()))
+if __name__ == "__main__":
+    print(Count(findGroups()))
