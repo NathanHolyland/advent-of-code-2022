@@ -1,8 +1,5 @@
 import re
-
-def pretty_print(d):
-    import json
-    print(json.dumps(d, indent=4))
+from numpy import Inf
 
 def navigateToPath(dictionary, path):
     for i in range(len(path)):
@@ -48,11 +45,11 @@ def count(totals, dictionary, key):
             total += result
         else:
             total += dictionary[i]
-    totals[key] = total
+    totals.append([key, total])
     return total
 
 def getPreCounts(dictionary):
-    counts = {}
+    counts = []
     count(counts, dictionary, "/")
     return counts
 
@@ -60,15 +57,31 @@ def sumLessThan100000(dictionary):
     running_total = 0
     preCounts = getPreCounts(dictionary)
     print(preCounts)
-    for i in preCounts.keys():
-        if preCounts[i] <= 100000:
-            running_total += preCounts[i]
+    for i in preCounts:
+        if i[1] <= 100000:
+            running_total += i[1]
     return running_total
+
+def findSmallest(values, minimum):
+    smallest = Inf
+    for i in values:
+        if minimum < i[1] < smallest:
+            smallest = i[1]
+    return smallest
+
+def findFirstOccurence(dirName, values):
+    for i in values:
+        if i[0] == dirName:
+            return i[1]
+
 
 def main():
     dictionary = constructDictionary()
-    pretty_print(dictionary)
-    print(sumLessThan100000(dictionary))
+    #print(sumLessThan100000(dictionary))
+    values = getPreCounts(dictionary)
+    freeSpace = 70000000-findFirstOccurence("/", values)
+    required_space = 30000000-freeSpace
+    print(findSmallest(values, required_space))
 
 if __name__ == "__main__":
     main()
