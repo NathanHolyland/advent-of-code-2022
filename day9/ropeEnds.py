@@ -43,7 +43,6 @@ def main():
     for movement in movements:
         directions.append(movement.split(" "))
     rope_parts = [Vector(0,0) for i in range(10)]
-    rope_end = Vector(0,0)
 
     toVector = {
         "U": Vector(0,1),
